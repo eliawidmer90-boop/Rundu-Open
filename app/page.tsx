@@ -1,4 +1,6 @@
 import RegistrationForm from "./RegistrationForm";
+import Image from "next/image";
+import tennisPromo from "../public/images/tennis-celebrate-sports.png";
 import { registrationSummary } from "../lib/registration";
 
 export const dynamic = "force-dynamic";
@@ -41,21 +43,14 @@ export default async function Home() {
                 Registration details <span>↗</span>
               </a>
             </div>
-            <p className="unofficial">Unofficial Tournament - Just for fun</p>
           </div>
-          <div
-            className="court-art"
-            role="img"
-            aria-label="Illustration of a green tennis court with a yellow tennis ball"
-          >
-            <div className="court">
-              <div className="court-inner" />
-              <div className="service-line" />
-              <div className="net" />
-              <div className="centre-line" />
-            </div>
-            <div className="tennis-ball" />
-          </div>
+          <Image
+            className="tennis-promo"
+            src={tennisPromo}
+            alt="Rundu Open: Serve. Sip. Celebrate. Free drinks for every player. A trophy for the winner! Tennis racket, ball, trophy and sports drink bottles."
+            sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1100px) 45vw, 540px"
+            priority
+          />
         </section>
         <div className="quick-facts">
           <div>
@@ -85,6 +80,15 @@ export default async function Home() {
                 <p>
                   Entry is N$20. A maximum of 8 participants will be accepted,
                   strictly first come, first served.
+                </p>
+              </div>
+            </article>
+            <article>
+              <div>
+                <h3>Something for everyone</h3>
+                <p>
+                  Free drinks for all players and a trophy for the winner.
+                  There is no prize money.
                 </p>
               </div>
             </article>
@@ -126,7 +130,6 @@ export default async function Home() {
             <div>
               <h2>Schedule & results</h2>
             </div>
-            <p>Saturday start time to be confirmed.</p>
           </div>
           <div className="timeline">
             <article>

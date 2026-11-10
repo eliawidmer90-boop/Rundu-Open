@@ -16,6 +16,8 @@ for (const wording of [
   "I can attend Saturday, 21 November 2026.",
   "Friday morning",
   "N$20",
+  "Serve. Sip. Celebrate. Free drinks for every player. A trophy for the winner!",
+  "There is no prize money.",
   "Available spots",
   "Registered Players",
   "One open category",

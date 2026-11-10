@@ -14,11 +14,11 @@ const messages: Record<string, string> = {
   unavailable:
     "We cannot confirm registration status right now. Please try again or contact Elia.",
   accepted:
-    "You're registered! Your entry has been saved. Contact Elia for payment arrangements. The match schedule will be announced Friday morning, 20 November.",
+    "You're registered! The match schedule will be announced Friday morning, 20 November. Payment on site.",
   duplicate:
-    "A registration already uses this WhatsApp number. Please contact Elia to check or change your entry.",
+    "A registration already uses this contact number. Please contact Elia to check or change your entry.",
   invalid:
-    "Check your name, WhatsApp number (for example, 0811234567) and availability confirmation.",
+    "Check your name, contact number (for example, 0811234567) and availability confirmation.",
 };
 
 export default function RegistrationForm({
@@ -122,7 +122,7 @@ export default function RegistrationForm({
             onChange={(e) => setName(e.target.value)}
             placeholder="Your full name"
           />
-          <label htmlFor="phone">WhatsApp number</label>
+          <label htmlFor="phone">Contact number</label>
           <input
             id="phone"
             name="phone"
@@ -167,10 +167,6 @@ export default function RegistrationForm({
           </p>
         )}
       </form>
-      <p className="privacy">
-        Your WhatsApp number is private and will be used by the organiser for
-        tournament communication. It will not appear on this website.
-      </p>
     </div>
   );
 }

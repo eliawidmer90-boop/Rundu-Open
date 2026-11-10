@@ -50,7 +50,6 @@ Edit a sentence in `app/page.tsx`, save, and watch the preview update. `classNam
 ## Still to confirm
 
 - Match rules and format.
-- Prize money, if any.
 - Saturday start time.
 - Payment arrangements.
 - Domain ownership and later connection of `runduopen.info`.
