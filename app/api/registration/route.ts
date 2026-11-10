@@ -3,6 +3,7 @@ import {
   databaseRpc,
   registrationSummary,
 } from "../../../lib/registration";
+import { normalizePhone } from "../../../lib/phone";
 
 export async function GET() {
   return Response.json(
@@ -24,11 +25,11 @@ export async function POST(request: Request) {
     if (raw.length > 2048) return new Response(null, { status: 413 });
     const input = JSON.parse(raw);
     const name = typeof input.name === "string" ? input.name.trim() : "";
-    const phone = typeof input.phone === "string" ? input.phone.trim() : "";
+    const phone = normalizePhone(input.phone);
     if (
       name.length < 2 ||
       name.length > 100 ||
-      !/^\+[1-9][0-9]{7,14}$/.test(phone) ||
+      phone === null ||
       input.available !== true ||
       !/^[0-9a-f-]{36}$/i.test(input.requestId ?? "")
     ) {

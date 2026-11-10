@@ -20,12 +20,12 @@ for (const wording of [
   "Registered Players",
   "One open category",
   "all ages and genders play together",
-  "https://wa.me/41764801248",
   "tel:+264812752517",
 ]) {
   assert.ok(html.includes(wording), `Missing page content: ${wording}`);
 }
 assert.match(html, /<fieldset disabled=""/);
+assert.doesNotMatch(html, /https:\/\/wa\.me\/|0041 76 480 12 48/);
 assert.doesNotMatch(html, /Sunday|22 November|both days|additional day|16 places|Maximum 16/i);
 assert.ok(html.includes("Online registration is not yet open"));
 const status = await fetch(`${base}/api/registration`);

@@ -2,12 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import type { RegistrationSummary } from "../lib/registration";
+import { PHONE_PATTERN } from "../lib/phone";
 
 const messages: Record<string, string> = {
   "not-open":
     "Online registration is not yet open. The database connection and registration checks must be completed first.",
   open: "Registration is open. Places are allocated first come, first served.",
-  full: "Registration is full. All 16 places have been filled.",
+  full: "Registration is full. All 8 places have been filled.",
   closed:
     "Registration is closed. The deadline was Thursday night, 19 November 2026, at 24:00.",
   unavailable:
@@ -17,7 +18,7 @@ const messages: Record<string, string> = {
   duplicate:
     "A registration already uses this WhatsApp number. Please contact Elia to check or change your entry.",
   invalid:
-    "Check your name, international WhatsApp number and availability confirmation.",
+    "Check your name, WhatsApp number (for example, 0811234567) and availability confirmation.",
 };
 
 export default function RegistrationForm({
@@ -127,15 +128,17 @@ export default function RegistrationForm({
             name="phone"
             type="tel"
             autoComplete="tel"
-            pattern="\+[1-9][0-9]{7,14}"
+            pattern={PHONE_PATTERN}
+            title="Enter 10 digits starting with 081, or an international number starting with +."
             required
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            placeholder="+264…"
+            placeholder="0811234567"
             aria-describedby="phone-help"
           />
           <small id="phone-help">
-            Include your country code, starting with +, and digits only.
+            Use 10 digits starting with 081, for example 0811234567.
+            International numbers starting with + are also accepted.
           </small>
           <label className="checkbox">
             <input
@@ -145,8 +148,7 @@ export default function RegistrationForm({
               onChange={(e) => setAvailable(e.target.checked)}
             />
             <span>
-              I can attend Saturday, 21 November, and Sunday, 22 November 2026,
-              if required.
+              I can attend Saturday, 21 November 2026.
             </span>
           </label>
           <button className="button primary submit" type="submit">

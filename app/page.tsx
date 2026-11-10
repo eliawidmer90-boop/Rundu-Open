@@ -166,13 +166,6 @@ export default async function Home() {
             <p>For tournament and registration questions.</p>
           </div>
           <div className="contact-methods">
-            <a href="https://wa.me/41764801248" className="contact-link">
-              <span>
-                <small>WHATSAPP</small>
-                <strong>0041 76 480 12 48</strong>
-              </span>
-              <span>Message Elia ↗</span>
-            </a>
             <a href="tel:+264812752517" className="contact-link">
               <span>
                 <small>CALLING</small>
@@ -180,9 +173,6 @@ export default async function Home() {
               </span>
               <span>Call Elia ↗</span>
             </a>
-            <p>
-              WhatsApp and calls use different numbers.
-            </p>
           </div>
         </section>
       </main>
