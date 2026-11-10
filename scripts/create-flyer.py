@@ -61,7 +61,7 @@ box(464, 52, 80, 36, LIME, 3)
 text(476, 78, "2026", 25, "CondensedBold", GREEN)
 
 photo_x, photo_top, photo_size = 274, 128, 287
-c.drawImage(str(ROOT / "public/images/tennis-celebrate-sports.png"),
+c.drawImage(str(ROOT / "public/images/tennis-rainy-season-v2.png"),
             photo_x, H-photo_top-photo_size, photo_size, photo_size,
             preserveAspectRatio=True, mask="auto")
 
@@ -79,16 +79,13 @@ box(34, 435, W-68, 54, PALE, 4)
 text(48, 458, "ONLY 8 PLACES. EVERYONE WELCOME.", 19, "CondensedBold")
 text(48, 477, "One open category. All ages and genders. First come, first served.", 10)
 
-text(40, 518, "Free drinks for all players. A trophy for the winner!", 12.5, "ArialBold")
-text(40, 537, "No prize money.", 9.5, color=MUTED)
-text(40, 562, "Match schedule announced Friday morning, 20 November.", 10.5)
+text(40, 537, "Match schedule announced Friday morning, 20 November.", 10.5)
 
 box(34, 585, W-68, 166, GREEN, 5)
 text(51, 616, "SCAN TO REGISTER", 11, "ArialBold", LIME)
 text(49, 651, "runduopen.info", 26, "CondensedBold", white)
-text(51, 681, "Closes Thursday night, 19 November", 10.5, "ArialBold", white)
-text(51, 700, "at 24:00 (midnight, Namibia time).", 10.5, "ArialBold", white)
-text(51, 723, "Closes earlier if all 8 places are filled.", 9.5, color=white)
+text(51, 686, "Registration Deadline: Thursday, 19.Nov.", 10.5, "ArialBold", white)
+text(51, 715, "Closes earlier if all 8 places are filled.", 9.5, color=white)
 
 # True vector QR with a four-module white quiet zone. No image-generation QR.
 qr = qrcode.QRCode(error_correction=qrcode.constants.ERROR_CORRECT_Q, border=4)
@@ -109,7 +106,6 @@ c.linkURL(URL, (qr_x, H-qr_top-qr_size, qr_x+qr_size, H-qr_top), relative=0)
 c.linkURL(URL, (49, H-658, 245, H-627), relative=0)
 
 text(40, 785, "Questions? Call Elia: 081 275 25 17", 11, "ArialBold")
-text(40, 804, "Saturday, 21 November 2026  |  Kavango River Lodge, Rundu", 8.5, color=MUTED)
 c.showPage()
 c.save()
 
@@ -117,8 +113,8 @@ reader = PdfReader(str(PDF))
 assert len(reader.pages) == 1
 extracted = reader.pages[0].extract_text()
 for required in ["RUNDU OPEN", "2026", "21 NOVEMBER", "Kavango River Lodge", "N$20", "8 PLACES",
-                 "All ages and genders", "24:00", "19 November", "runduopen.info", "081 275 25 17",
-                 "Payment on site", "No prize money"]:
+                 "All ages and genders", "Registration Deadline: Thursday, 19.Nov.", "runduopen.info", "081 275 25 17",
+                 "Payment on site"]:
     assert required in extracted, f"Missing flyer content: {required}"
 assert "Sunday" not in extracted
 assert abs(float(reader.pages[0].mediabox.width)-W) < 0.1
