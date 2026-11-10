@@ -1,10 +1,10 @@
 import RegistrationForm from "./RegistrationForm";
-import { registrationStatus } from "../lib/registration";
+import { registrationSummary } from "../lib/registration";
 
 export const dynamic = "force-dynamic";
 
 export default async function Home() {
-  const status = await registrationStatus();
+  const summary = await registrationSummary();
   return (
     <>
       <header className="header">
@@ -114,6 +114,9 @@ export default async function Home() {
           <div className="register-copy">
             <h2>Registration</h2>
             <p>
+              One open category for everyone, regardless of age or gender.
+            </p>
+            <p>
               Before registering, make sure you can attend both days if
               required. Your place is confirmed only after your registration has
               been saved successfully.
@@ -123,7 +126,7 @@ export default async function Home() {
               questions, <a href="#contact">get in touch with Elia ↗</a>.
             </p>
           </div>
-          <RegistrationForm initialStatus={status} />
+          <RegistrationForm initialSummary={summary} />
         </section>
         <section id="schedule" className="section schedule">
           <div className="section-heading">

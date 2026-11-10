@@ -1,7 +1,7 @@
 // Run against a local preview with registration DISABLED: node scripts/check-preview.mjs
 import assert from "node:assert/strict";
 
-const base = "http://localhost:3000";
+const base = process.env.PREVIEW_URL ?? "http://localhost:3000";
 const page = await fetch(base);
 assert.equal(page.status, 200);
 const html = await page.text();
@@ -15,6 +15,10 @@ for (const wording of [
   "22 November",
   "Friday morning",
   "N$20",
+  "Available spots",
+  "Registered Players",
+  "One open category",
+  "all ages and genders play together",
   "https://wa.me/41764801248",
   "tel:+264812752517",
 ]) {
@@ -23,7 +27,9 @@ for (const wording of [
 assert.match(html, /<fieldset disabled=""/);
 assert.ok(html.includes("Online registration is not yet open"));
 const status = await fetch(`${base}/api/registration`);
-assert.deepEqual(await status.json(), { status: "not-open" });
+assert.deepEqual(await status.json(), {
+  status: "not-open", registered: null, available: null, capacity: 16,
+});
 const submission = await fetch(`${base}/api/registration`, {
   method: "POST",
   headers: { "Content-Type": "application/json", Origin: base },

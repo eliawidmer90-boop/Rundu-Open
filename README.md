@@ -37,7 +37,7 @@ With that production preview running and registration disabled, `node scripts/ch
 | `.env.example` | Names of settings, with no real secrets |
 | `docs/SETUP.md` | Account setup, testing, GitHub and Vercel instructions |
 
-The browser displays the page and form. It sends registrations to the Next.js server. The server calls a Supabase database function, which checks the deadline and capacity and saves the entry in one transaction. Only a successful saved response is shown as confirmed. You view entries by signing into Supabase; visitors cannot read the table or its phone numbers.
+The browser displays the page and form. It sends registrations to the Next.js server. The server calls a Supabase database function, which checks the deadline and capacity and saves the entry in one transaction. Only a successful saved response is shown as confirmed. The registration form shows available spots out of 16 and a registered-player count, refreshed every 30 seconds. For existing databases, apply `supabase/migrations/20261110_registration_counts.sql` to enable these counts. You view or delete entries privately in Supabase's Table Editor (`registrations`); visitors cannot read participant names or phone numbers. Removing an entry frees a spot if registration is still open before the deadline.
 
 The unique WhatsApp number prevents accidental repeat entries. The request ID also protects retries after a lost response. Different people sharing one WhatsApp number should contact Elia. There is no phone ownership verification or automated bot protection yet; review these before promoting registration widely.
 

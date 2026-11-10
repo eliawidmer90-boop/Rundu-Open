@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import type { RegistrationStatus } from "../lib/registration";
+import type { RegistrationSummary } from "../lib/registration";
 
 const messages: Record<string, string> = {
   "not-open":
@@ -21,34 +21,35 @@ const messages: Record<string, string> = {
 };
 
 export default function RegistrationForm({
-  initialStatus,
+  initialSummary,
 }: {
-  initialStatus: RegistrationStatus;
+  initialSummary: RegistrationSummary;
 }) {
-  const [status, setStatus] = useState<string>(initialStatus);
+  const [status, setStatus] = useState<string>(initialSummary.status);
+  const [summary, setSummary] = useState(initialSummary);
   const [feedback, setFeedback] = useState("");
   const [busy, setBusy] = useState(false);
   const requestId = useRef<string | null>(null);
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [available, setAvailable] = useState(false);
+  async function refreshSummary() {
+    try {
+      const response = await fetch("/api/registration", { cache: "no-store" });
+      if (!response.ok) throw new Error("Status unavailable");
+      const data: RegistrationSummary = await response.json();
+      setSummary(data);
+      setStatus((previous) => previous === "accepted" ? previous : data.status);
+    } catch {
+      setSummary((previous) => ({ ...previous, registered: null, available: null }));
+      setStatus((previous) => previous === "accepted" ? previous : "unavailable");
+    }
+  }
+
   useEffect(() => {
-    if (initialStatus === "not-open") return;
-    const timer = setInterval(async () => {
-      try {
-        const response = await fetch("/api/registration", {
-          cache: "no-store",
-        });
-        const data = await response.json();
-        setStatus((previous) =>
-          previous === "accepted" ? previous : data.status,
-        );
-      } catch {
-        /* Submit still checks the authoritative database state. */
-      }
-    }, 30000);
+    const timer = setInterval(refreshSummary, 30000);
     return () => clearInterval(timer);
-  }, [initialStatus]);
+  }, []);
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -71,6 +72,8 @@ export default function RegistrationForm({
       if (["accepted", "full", "closed", "not-open"].includes(data.status))
         setStatus(data.status);
       else setFeedback(messages[data.status] ?? messages.unavailable);
+      if (["accepted", "full", "closed", "not-open"].includes(data.status))
+        await refreshSummary();
     } catch {
       setFeedback(
         "We could not confirm your entry. Retry with the same details; your request will not be saved twice.",
@@ -83,7 +86,22 @@ export default function RegistrationForm({
   const disabled = busy || status !== "open";
   return (
     <div className="form-card">
+      <dl className="registration-counts" aria-label="Registration places" aria-live="polite">
+        <div>
+          <dt>Available spots</dt>
+          <dd>{summary.available ?? "—"}<small> / {summary.capacity}</small></dd>
+        </div>
+        <div>
+          <dt>Registered Players</dt>
+          <dd>{summary.registered ?? "—"}</dd>
+        </div>
+      </dl>
+      {summary.registered === null && (
+        <p className="counts-help">Player counts are temporarily unavailable.</p>
+      )}
+      <p className="counts-help">Maximum 16 players. Counts refresh every 30 seconds.</p>
       <h3>Participant details</h3>
+      <p className="category-note">One open category — all ages and genders play together.</p>
       <p
         className={`notice ${status === "accepted" ? "success" : ""}`}
         role="status"

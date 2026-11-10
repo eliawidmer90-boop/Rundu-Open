@@ -25,11 +25,21 @@ Use a separate Supabase test project with the same schema. Do not put test entri
 - Confirm anonymous and authenticated API keys cannot select the registrations table or call the registration functions. No public read policies are provided.
 - Check desktop and phone widths, keyboard navigation, labels, WhatsApp and calling links.
 
-For the real project, only after these checks pass, set `tournament_settings.registration_open=true` and `REGISTRATION_ENABLED=true`. Both switches are required. There is no remaining-place count; the full state comes from the database. The database checks its own clock on every submission. Status refreshes in the browser every 30 seconds and is checked again on submit.
+For the real project, only after these checks pass, set `tournament_settings.registration_open=true` and `REGISTRATION_ENABLED=true`. Both switches are required. The website shows available spots out of 16 and a registered-player count. The server reads only a database row count for these indicators; names and phone numbers are not returned to visitors. Counts and status refresh every 30 seconds and after a successful registration. If the count cannot be retrieved, the website shows a dash rather than a misleading zero. The database checks its own clock on every submission.
 
 The database's `received_at` records the server save time after the submission obtains its lock. Order by `received_at` ascending, then `id` ascending for the accepted order. Very close simultaneous entries are ordered by the database, not a participant's device clock.
 
 The dashboard's Table Editor is the initial private organiser area. Select `registrations`, sort as above, and keep exports private. Arrange a sensible data deletion date after the tournament. Database durability is separate from backups: review your chosen Supabase plan's backup and availability options.
+
+### View or remove registered players
+
+For an existing database, first run `supabase/migrations/20261110_registration_counts.sql` in Supabase SQL Editor to enable the website's count indicators. This adds a server-only summary function and preserves all entries and settings. Fresh databases using the updated initial schema already include it. Until applied, registration continues to work but counts display a dash.
+
+Sign in to your Supabase project, open **Table Editor**, and select **registrations**. The `participant_name`, `whatsapp`, `available_both_days`, and `received_at` columns show the saved entries. Sort by `received_at` ascending, then `id` ascending for registration order.
+
+To remove a player, carefully verify their name and WhatsApp number, select that row, and use the table's delete action. Deletion permanently removes that entry. If you might need the record, save it privately first. No player has been deleted by these website changes.
+
+Removing one row frees one spot. The public counts update within 30 seconds (or on page reload). Registration reopens automatically after a removal only if the opening switches remain enabled and the deadline has not passed. The removed player can register again; deletion is not a ban. Supabase remains the private organiser backend; there is no public delete endpoint.
 
 ## Open registration for 19 November at 24:00
 

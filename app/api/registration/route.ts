@@ -1,12 +1,12 @@
 import {
   configured,
   databaseRpc,
-  registrationStatus,
+  registrationSummary,
 } from "../../../lib/registration";
 
 export async function GET() {
   return Response.json(
-    { status: await registrationStatus() },
+    await registrationSummary(),
     { headers: { "Cache-Control": "no-store" } },
   );
 }

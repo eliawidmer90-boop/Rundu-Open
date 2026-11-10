@@ -3,6 +3,14 @@ export const DEADLINE = "2026-11-20T00:00:00+02:00";
 export type RegistrationStatus =
   "not-open" | "open" | "full" | "closed" | "unavailable";
 
+export const CAPACITY = 16;
+export type RegistrationSummary = {
+  status: RegistrationStatus;
+  registered: number | null;
+  available: number | null;
+  capacity: number;
+};
+
 export function configured() {
   return (
     process.env.REGISTRATION_ENABLED === "true" &&
@@ -42,4 +50,25 @@ export async function registrationStatus(): Promise<RegistrationStatus> {
   } catch {
     return "unavailable";
   }
+}
+
+// The server-only RPC returns counts, never participant names or phone numbers.
+export async function registrationSummary(): Promise<RegistrationSummary> {
+  if (configured()) {
+    try {
+      const data = await databaseRpc("registration_summary");
+      const statuses: RegistrationStatus[] = ["not-open", "open", "full", "closed"];
+      if (!statuses.includes(data.status) || !Number.isSafeInteger(data.registered) || data.registered < 0)
+        throw new Error("Invalid registration summary");
+      return {
+        status: Date.now() >= Date.parse(DEADLINE) ? "closed" : data.status,
+        registered: data.registered,
+        available: Math.max(0, CAPACITY - data.registered),
+        capacity: CAPACITY,
+      };
+    } catch {
+      // Existing installations can still register while the new migration is pending.
+    }
+  }
+  return { status: await registrationStatus(), registered: null, available: null, capacity: CAPACITY };
 }

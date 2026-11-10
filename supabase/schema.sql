@@ -53,6 +53,20 @@ end;
 $$;
 
 revoke all on function public.registration_status() from public, anon, authenticated;
+create function public.registration_summary() returns jsonb
+language plpgsql security definer set search_path = '' as $$
+declare player_count integer;
+begin
+  select count(*) into player_count from public.registrations;
+  return jsonb_build_object(
+    'status', public.registration_status(),
+    'registered', player_count
+  );
+end;
+$$;
+
+revoke all on function public.registration_summary() from public, anon, authenticated;
+grant execute on function public.registration_summary() to service_role;
 revoke all on function public.register_participant(text,text,boolean,uuid) from public, anon, authenticated;
 grant execute on function public.registration_status() to service_role;
 grant execute on function public.register_participant(text,text,boolean,uuid) to service_role;
