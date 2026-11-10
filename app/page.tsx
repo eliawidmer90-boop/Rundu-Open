@@ -16,7 +16,7 @@ export default async function Home() {
           <sup>2026</sup>
         </a>
         <nav aria-label="Main navigation">
-          <a href="#tournament">The tournament</a>
+          <a href="#tournament">Tournament</a>
           <a href="#schedule">Schedule</a>
           <a href="#contact">Contact</a>
         </nav>

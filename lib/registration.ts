@@ -7,11 +7,11 @@ export function configured() {
   return (
     process.env.REGISTRATION_ENABLED === "true" &&
     !!process.env.SUPABASE_URL &&
-    !!process.env.SUPABASE_SERVICE_ROLE_KEY
+    !!process.env.SUPABASE_SECRET_KEY
   );
 }
 
-// Called only by server code; the service key must never reach the browser.
+// Called only by server code; the secret key must never reach the browser.
 export async function databaseRpc(
   name: string,
   body: Record<string, unknown> = {},
@@ -24,8 +24,8 @@ export async function databaseRpc(
       signal: AbortSignal.timeout(10000),
       headers: {
         "Content-Type": "application/json",
-        apikey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+        // Supabase secret keys are API keys, not JWT bearer tokens.
+        apikey: process.env.SUPABASE_SECRET_KEY!,
       },
       body: JSON.stringify(body),
     },

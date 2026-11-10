@@ -4,9 +4,11 @@
 
 1. Create your own account at https://supabase.com and create a project. Choose a suitable plan yourself; no service has been purchased or connected for you. Keep its database password in a password manager.
 2. Open **SQL Editor**, paste `supabase/schema.sql` and run it once. This creates `registrations` and `tournament_settings`. Re-running the initial schema is intentionally not supported; future changes should be new migration files.
-3. In project settings, find the project URL and the **server-side service_role key**. Never paste the key into chat, source code, a GitHub issue, or a variable beginning `NEXT_PUBLIC_`. This key has powerful database access.
-4. Copy `.env.example` to `.env.local` in the project root. Fill in `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY`. Keep `REGISTRATION_ENABLED=false` while checking setup. `.env.local` is ignored by Git.
+3. Find the project URL (`https://your-project.supabase.co`) and, under **Settings > API Keys > Secret keys**, copy the **server-side secret key** beginning `sb_secret_`. Do not use the publishable key or a PostgreSQL connection string. Never paste the secret key into chat, source code, a GitHub issue, or a variable beginning `NEXT_PUBLIC_`. This key has powerful database access.
+4. Copy `.env.example` to `.env.local` in the project root. Fill in `SUPABASE_URL` and `SUPABASE_SECRET_KEY`. Keep `REGISTRATION_ENABLED=false` while checking setup. `.env.local` is ignored by Git. If you previously used `SUPABASE_SERVICE_ROLE_KEY`, replace that setting with `SUPABASE_SECRET_KEY` and the new secret key.
 5. Restart the development server after changing environment variables.
+
+The server sends the secret key in the `apikey` header, not as an `Authorization` bearer token. Secret keys use the same database `service_role` role, so the existing schema and function grants do not need changing. Do not rerun `schema.sql` to switch API keys. With `REGISTRATION_ENABLED=false`, the website skips database requests; its disabled message alone does not verify the connection. Follow the test-project steps below to verify it.
 
 Supabase stores entries outside the website code, so updates and other computers do not erase registrations. On another device, clone the repository and provide the same environment settings privately. Use Supabase's dashboard for secure organiser access, and protect your account with multifactor authentication. Do not give participants your Supabase login or service key.
 
