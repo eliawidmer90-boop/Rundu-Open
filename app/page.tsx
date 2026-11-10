@@ -1,6 +1,6 @@
 import RegistrationForm from "./RegistrationForm";
 import Image from "next/image";
-import tennisPromo from "../public/images/tennis-rainy-season-v2.png";
+import tennisPromo from "../public/images/tennis-rainy-season-dated.png";
 import { registrationSummary } from "../lib/registration";
 
 export const dynamic = "force-dynamic";
@@ -47,7 +47,7 @@ export default async function Home() {
           <Image
             className="tennis-promo"
             src={tennisPromo}
-            alt="Rundu Open: Let's play some tennis before the rainy season floods our only court! Free drinks for every registered player. A trophy for the winner! Tennis racket, ball, trophy and sports drink bottles."
+            alt="Saturday, 21 November 2026. Rundu Open: Let's play some tennis before the rainy season floods our only court! Free drinks for every registered player. A trophy for the winner! Tennis racket, ball, trophy and sports drink bottles."
             sizes="(max-width: 760px) calc(100vw - 40px), (max-width: 1100px) 45vw, 540px"
             priority
           />
