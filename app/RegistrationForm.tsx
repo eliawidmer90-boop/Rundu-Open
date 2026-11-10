@@ -9,7 +9,7 @@ const messages: Record<string, string> = {
   open: "Registration is open. Places are allocated first come, first served.",
   full: "Registration is full. All 16 places have been filled.",
   closed:
-    "Registration is closed. The deadline was Thursday, 19 November 2026, at 12:00 noon.",
+    "Registration is closed. The deadline was Thursday night, 19 November 2026, at 24:00.",
   unavailable:
     "We cannot confirm registration status right now. Please try again or contact Elia.",
   accepted:

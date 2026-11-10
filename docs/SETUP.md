@@ -21,7 +21,7 @@ Use a separate Supabase test project with the same schema. Do not put test entri
 - Submit at least 17 **different** entries simultaneously to the empty test project. Verify exactly 16 saves and a full response for the rest. This live concurrency check remains required; the advisory transaction lock is designed to serialize these calls. Check the UI shows full on refresh.
 - Test retrying the identical request ID after a successful save: only one row should exist and the response should still say accepted.
 - Test unavailable database credentials: there must be no success confirmation.
-- Test the deadline in a test project only, temporarily changing the timestamp in both database functions and `lib/registration.ts` to a near-future time. Before it passes, submit successfully; at and after it, submissions must be closed. Restore the exact production deadline: `2026-11-19T12:00:00+02:00` (10:00 UTC).
+- Test the deadline in a test project only, temporarily changing the timestamp in both database functions and `lib/registration.ts` to a near-future time. Before it passes, submit successfully; at and after it, submissions must be closed. Restore the exact production deadline: `2026-11-20T00:00:00+02:00` (22:00 UTC on 19 November).
 - Confirm anonymous and authenticated API keys cannot select the registrations table or call the registration functions. No public read policies are provided.
 - Check desktop and phone widths, keyboard navigation, labels, WhatsApp and calling links.
 
@@ -30,6 +30,10 @@ For the real project, only after these checks pass, set `tournament_settings.reg
 The database's `received_at` records the server save time after the submission obtains its lock. Order by `received_at` ascending, then `id` ascending for the accepted order. Very close simultaneous entries are ordered by the database, not a participant's device clock.
 
 The dashboard's Table Editor is the initial private organiser area. Select `registrations`, sort as above, and keep exports private. Arrange a sensible data deletion date after the tournament. Database durability is separate from backups: review your chosen Supabase plan's backup and availability options.
+
+## Open registration for 19 November at 24:00
+
+For an existing database, run supabase/migrations/20261110_open_registration.sql in Supabase SQL Editor. This updates the deadline to midnight at the end of Thursday (20 November at 00:00 Namibia time), opens the database switch, and preserves existing entries. Do not rerun the initial schema. Set REGISTRATION_ENABLED=true on the website server and restart or redeploy. The local environment switch has been enabled; the hosted database migration must still be applied and verified.
 
 ## 3. GitHub, later
 

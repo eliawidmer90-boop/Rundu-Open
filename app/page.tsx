@@ -103,7 +103,7 @@ export default async function Home() {
               <div>
                 <h3>Registration deadline</h3>
                 <p>
-                  Registration closes Thursday, 19 November 2026, at 12:00 noon,
+                  Registration closes Thursday night, 19 November 2026, at 24:00,
                   or earlier once all 16 places are filled.
                 </p>
               </div>
@@ -139,7 +139,7 @@ export default async function Home() {
                 19<span>NOV</span>
               </strong>
               <h3>Registration closes</h3>
-              <p>12:00 noon, or earlier if all 16 places are filled.</p>
+              <p>24:00 Thursday night, or earlier if all 16 places are filled.</p>
             </article>
             <article>
               <span className="day">FRI</span>

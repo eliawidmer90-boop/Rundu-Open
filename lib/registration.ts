@@ -1,5 +1,5 @@
 // Namibia is UTC+02:00. An explicit offset makes the deadline unambiguous everywhere.
-export const DEADLINE = "2026-11-19T12:00:00+02:00";
+export const DEADLINE = "2026-11-20T00:00:00+02:00";
 export type RegistrationStatus =
   "not-open" | "open" | "full" | "closed" | "unavailable";
 

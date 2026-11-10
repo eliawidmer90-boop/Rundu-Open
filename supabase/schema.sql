@@ -22,7 +22,7 @@ revoke all on public.registrations, public.tournament_settings from anon, authen
 create function public.registration_status() returns text
 language plpgsql security definer set search_path = '' as $$
 begin
-  if clock_timestamp() >= timestamptz '2026-11-19 12:00:00+02' then return 'closed'; end if;
+  if clock_timestamp() >= timestamptz '2026-11-20 00:00:00+02' then return 'closed'; end if;
   if not (select registration_open from public.tournament_settings where id) then return 'not-open'; end if;
   if (select count(*) from public.registrations) >= 16 then return 'full'; end if;
   return 'open';

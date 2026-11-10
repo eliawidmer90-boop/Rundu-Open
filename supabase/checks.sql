@@ -5,7 +5,7 @@ do $$
 declare i integer; result text; first_id uuid := gen_random_uuid();
 begin
   if exists(select 1 from public.registrations) then raise exception 'Use an empty test database'; end if;
-  if clock_timestamp() >= timestamptz '2026-11-19 12:00:00+02' then raise exception 'Deadline has passed: test with an adjusted deadline in a TEST project only'; end if;
+  if clock_timestamp() >= timestamptz '2026-11-20 00:00:00+02' then raise exception 'Deadline has passed: test with an adjusted deadline in a TEST project only'; end if;
   if public.registration_status() <> 'not-open' then raise exception 'Expected initial disabled state'; end if;
   update public.tournament_settings set registration_open = true where id;
   result := public.register_participant('Test One', '+264811111111', true, first_id);

@@ -10,7 +10,7 @@ for (const wording of [
   "Unofficial Tournament - Just for fun",
   "Kavango River Lodge",
   "19 November 2026",
-  "12:00 noon",
+  "24:00 Thursday night",
   "21 November",
   "22 November",
   "Friday morning",
