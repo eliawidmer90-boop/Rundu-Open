@@ -94,15 +94,6 @@ export default async function Home() {
             </article>
             <article>
               <div>
-                <h3>Availability</h3>
-                <p>
-                  The tournament takes place on Saturday, 21 November 2026.
-                  Participants must be available on Saturday.
-                </p>
-              </div>
-            </article>
-            <article>
-              <div>
                 <h3>Registration deadline</h3>
                 <p>
                   Registration closes Thursday night, 19 November 2026, at 24:00,
@@ -128,7 +119,7 @@ export default async function Home() {
         <section id="schedule" className="section schedule">
           <div className="section-heading">
             <div>
-              <h2>Schedule & results</h2>
+              <h2>Schedule</h2>
             </div>
           </div>
           <div className="timeline">
@@ -159,7 +150,7 @@ export default async function Home() {
           </div>
           <div className="results-note">
             <p>
-              Schedule and results will appear here when available.
+              Schedule will appear here when available.
             </p>
           </div>
         </section>
