@@ -88,7 +88,6 @@ export default async function Home() {
                 <h3>Something for everyone</h3>
                 <p>
                   Free drinks for all players and a trophy for the winner.
-                  There is no prize money.
                 </p>
               </div>
             </article>
