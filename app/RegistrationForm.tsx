@@ -99,7 +99,6 @@ export default function RegistrationForm({
       {summary.registered === null && (
         <p className="counts-help">Player counts are temporarily unavailable.</p>
       )}
-      <p className="counts-help">Maximum 16 players. Counts refresh every 30 seconds.</p>
       <h3>Participant details</h3>
       <p className="category-note">One open category — all ages and genders play together.</p>
       <p

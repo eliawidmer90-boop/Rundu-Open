@@ -18,14 +18,14 @@ Use a separate Supabase test project with the same schema. Do not put test entri
 
 - Run `supabase/checks.sql` in the empty test project's SQL Editor. It checks saved entries, retries, duplicate numbers, availability validation, capacity and public access. It rolls back all test data.
 - For browser/API tests in the test project, set `tournament_settings.registration_open` to true in Table Editor and set local `REGISTRATION_ENABLED=true`. Restart the server. Test a valid entry, an invalid phone, an unchecked availability box, and a duplicate number. Confirm that successes really appear in Table Editor.
-- Submit at least 17 **different** entries simultaneously to the empty test project. Verify exactly 16 saves and a full response for the rest. This live concurrency check remains required; the advisory transaction lock is designed to serialize these calls. Check the UI shows full on refresh.
+- Submit at least 9 **different** entries simultaneously to the empty test project. Verify exactly 8 saves and a full response for the rest. This live concurrency check remains required; the advisory transaction lock is designed to serialize these calls. Check the UI shows full on refresh.
 - Test retrying the identical request ID after a successful save: only one row should exist and the response should still say accepted.
 - Test unavailable database credentials: there must be no success confirmation.
 - Test the deadline in a test project only, temporarily changing the timestamp in both database functions and `lib/registration.ts` to a near-future time. Before it passes, submit successfully; at and after it, submissions must be closed. Restore the exact production deadline: `2026-11-20T00:00:00+02:00` (22:00 UTC on 19 November).
 - Confirm anonymous and authenticated API keys cannot select the registrations table or call the registration functions. No public read policies are provided.
 - Check desktop and phone widths, keyboard navigation, labels, WhatsApp and calling links.
 
-For the real project, only after these checks pass, set `tournament_settings.registration_open=true` and `REGISTRATION_ENABLED=true`. Both switches are required. The website shows available spots out of 16 and a registered-player count. The server reads only a database row count for these indicators; names and phone numbers are not returned to visitors. Counts and status refresh every 30 seconds and after a successful registration. If the count cannot be retrieved, the website shows a dash rather than a misleading zero. The database checks its own clock on every submission.
+For the real project, only after these checks pass, set `tournament_settings.registration_open=true` and `REGISTRATION_ENABLED=true`. Both switches are required. The website shows available spots out of 8 and a registered-player count. The server reads only a database row count for these indicators; names and phone numbers are not returned to visitors. Counts and status refresh every 30 seconds and after a successful registration. If the count cannot be retrieved, the website shows a dash rather than a misleading zero. The database checks its own clock on every submission.
 
 The database's `received_at` records the server save time after the submission obtains its lock. Order by `received_at` ascending, then `id` ascending for the accepted order. Very close simultaneous entries are ordered by the database, not a participant's device clock.
 
@@ -35,7 +35,7 @@ The dashboard's Table Editor is the initial private organiser area. Select `regi
 
 For an existing database, first run `supabase/migrations/20261110_registration_counts.sql` in Supabase SQL Editor to enable the website's count indicators. This adds a server-only summary function and preserves all entries and settings. Fresh databases using the updated initial schema already include it. Until applied, registration continues to work but counts display a dash.
 
-Sign in to your Supabase project, open **Table Editor**, and select **registrations**. The `participant_name`, `whatsapp`, `available_both_days`, and `received_at` columns show the saved entries. Sort by `received_at` ascending, then `id` ascending for registration order.
+Sign in to your Supabase project, open **Table Editor**, and select **registrations**. The `participant_name`, `whatsapp`, `available_saturday`, and `received_at` columns show the saved entries. Sort by `received_at` ascending, then `id` ascending for registration order.
 
 To remove a player, carefully verify their name and WhatsApp number, select that row, and use the table's delete action. Deletion permanently removes that entry. If you might need the record, save it privately first. No player has been deleted by these website changes.
 
@@ -44,6 +44,10 @@ Removing one row frees one spot. The public counts update within 30 seconds (or 
 ## Open registration for 19 November at 24:00
 
 For an existing database, run supabase/migrations/20261110_open_registration.sql in Supabase SQL Editor. This updates the deadline to midnight at the end of Thursday (20 November at 00:00 Namibia time), opens the database switch, and preserves existing entries. Do not rerun the initial schema. Set REGISTRATION_ENABLED=true on the website server and restart or redeploy. The local environment switch has been enabled; the hosted database migration must still be applied and verified.
+
+### Saturday only, maximum 8 players
+
+After the earlier registration migrations, run `supabase/migrations/20261110_saturday_eight_players.sql` in Supabase SQL Editor. This changes the database capacity to 8 and renames the availability column to `available_saturday`. Existing confirmations remain valid because they already included Saturday. The registration API parameters stay the same. No entries are removed: if there are already 8 or more, registration is full and available spots show zero. Apply this migration last; rerunning the older opening migration would restore its historical 16-player rule.
 
 ## 3. GitHub, later
 

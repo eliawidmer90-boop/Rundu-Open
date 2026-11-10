@@ -12,7 +12,7 @@ create table public.registrations (
   request_id uuid not null unique,
   participant_name text not null check (char_length(btrim(participant_name)) between 2 and 100),
   whatsapp text not null unique check (whatsapp ~ '^\+[1-9][0-9]{7,14}$'),
-  available_both_days boolean not null check (available_both_days),
+  available_saturday boolean not null check (available_saturday),
   received_at timestamptz not null default clock_timestamp()
 );
 alter table public.registrations enable row level security;
@@ -24,7 +24,7 @@ language plpgsql security definer set search_path = '' as $$
 begin
   if clock_timestamp() >= timestamptz '2026-11-20 00:00:00+02' then return 'closed'; end if;
   if not (select registration_open from public.tournament_settings where id) then return 'not-open'; end if;
-  if (select count(*) from public.registrations) >= 16 then return 'full'; end if;
+  if (select count(*) from public.registrations) >= 8 then return 'full'; end if;
   return 'open';
 end;
 $$;
@@ -35,6 +35,7 @@ declare current_status text;
 begin
   -- One shared transaction lock serialises submissions, even across Vercel instances.
   -- The lock is released automatically on commit or rollback.
+  -- Keep this lock key stable when changing capacity.
   perform pg_advisory_xact_lock(2026, 16);
   if p_name is null or char_length(btrim(p_name)) not between 2 and 100
     or p_phone is null or p_phone !~ '^\+[1-9][0-9]{7,14}$'
@@ -46,7 +47,7 @@ begin
   current_status := public.registration_status();
   if current_status <> 'open' then return current_status; end if;
   if exists(select 1 from public.registrations where whatsapp = p_phone) then return 'duplicate'; end if;
-  insert into public.registrations(request_id, participant_name, whatsapp, available_both_days)
+  insert into public.registrations(request_id, participant_name, whatsapp, available_saturday)
     values (p_request_id, btrim(p_name), p_phone, p_available);
   return 'accepted';
 end;

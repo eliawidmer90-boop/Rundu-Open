@@ -39,21 +39,21 @@ async function check({ count = 0, status = "open", countFails = false, enabled =
   return summary;
 }
 
-assert.deepEqual(await check({}), { status: "open", registered: 0, available: 16, capacity: 16 });
-assert.equal((await check({ count: 16, status: "full" })).available, 0);
+assert.deepEqual(await check({}), { status: "open", registered: 0, available: 8, capacity: 8 });
+assert.equal((await check({ count: 8, status: "full" })).available, 0);
 // A removed entry is reflected by a fresh count; it does not need a local decrement.
-assert.equal((await check({ count: 15 })).available, 1);
-assert.equal((await check({ count: 17 })).available, 0);
+assert.equal((await check({ count: 7 })).available, 1);
+assert.equal((await check({ count: 9 })).available, 0);
 assert.equal((await check({ countFails: true })).registered, null);
 assert.equal((await check({ count: -1 })).registered, null);
 assert.equal((await check({ count: "3" })).registered, null);
 assert.deepEqual(await check({ count: 1, extra: { participant_name: "Private name", whatsapp: "Private phone" } }), {
-  status: "open", registered: 1, available: 15, capacity: 16,
+  status: "open", registered: 1, available: 7, capacity: 8,
 });
 assert.equal((await check({ now: "2026-11-19T21:59:59Z" })).status, "open");
 assert.equal((await check({ now: "2026-11-19T22:00:00Z" })).status, "closed");
 assert.deepEqual(await check({ enabled: false }), {
-  status: "not-open", registered: null, available: null, capacity: 16,
+  status: "not-open", registered: null, available: null, capacity: 8,
 });
 assert.equal(Date.parse("2026-11-20T00:00:00+02:00"), Date.parse("2026-11-19T22:00:00Z"));
 console.log("Passed: counts, capacity, removed entries, fallback, deadline boundary, and private field filtering.");

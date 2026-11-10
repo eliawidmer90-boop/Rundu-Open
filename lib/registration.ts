@@ -3,7 +3,7 @@ export const DEADLINE = "2026-11-20T00:00:00+02:00";
 export type RegistrationStatus =
   "not-open" | "open" | "full" | "closed" | "unavailable";
 
-export const CAPACITY = 16;
+export const CAPACITY = 8;
 export type RegistrationSummary = {
   status: RegistrationStatus;
   registered: number | null;

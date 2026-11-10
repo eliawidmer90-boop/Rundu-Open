@@ -61,7 +61,7 @@ export default async function Home() {
           <div>
             <span>WHEN</span>
             <strong>21 November 2026</strong>
-            <small>22 November reserved if required</small>
+            <small>Saturday only</small>
           </div>
           <div>
             <span>WHERE</span>
@@ -71,7 +71,7 @@ export default async function Home() {
           <div>
             <span>ENTRY</span>
             <strong>N$20 per participant</strong>
-            <small>16 places · First come, first served</small>
+            <small>8 places · First come, first served</small>
           </div>
         </div>
         <section id="tournament" className="section tournament">
@@ -83,7 +83,7 @@ export default async function Home() {
               <div>
                 <h3>Entry</h3>
                 <p>
-                  Entry is N$20. A maximum of 16 participants will be accepted,
+                  Entry is N$20. A maximum of 8 participants will be accepted,
                   strictly first come, first served.
                 </p>
               </div>
@@ -92,10 +92,8 @@ export default async function Home() {
               <div>
                 <h3>Availability</h3>
                 <p>
-                  The main tournament is Saturday, 21 November. Sunday, 22
-                  November is reserved as an additional day if required,
-                  depending on entries. Participants must be available on both
-                  days if required.
+                  The tournament takes place on Saturday, 21 November 2026.
+                  Participants must be available on Saturday.
                 </p>
               </div>
             </article>
@@ -104,7 +102,7 @@ export default async function Home() {
                 <h3>Registration deadline</h3>
                 <p>
                   Registration closes Thursday night, 19 November 2026, at 24:00,
-                  or earlier once all 16 places are filled.
+                  or earlier once all 8 places are filled.
                 </p>
               </div>
             </article>
@@ -115,11 +113,6 @@ export default async function Home() {
             <h2>Registration</h2>
             <p>
               One open category for everyone, regardless of age or gender.
-            </p>
-            <p>
-              Before registering, make sure you can attend both days if
-              required. Your place is confirmed only after your registration has
-              been saved successfully.
             </p>
             <p className="muted">
               Payment arrangements and match rules will be confirmed. For
@@ -133,7 +126,7 @@ export default async function Home() {
             <div>
               <h2>Schedule & results</h2>
             </div>
-            <p>Daily start times to be confirmed.</p>
+            <p>Saturday start time to be confirmed.</p>
           </div>
           <div className="timeline">
             <article>
@@ -142,7 +135,7 @@ export default async function Home() {
                 19<span>NOV</span>
               </strong>
               <h3>Registration closes</h3>
-              <p>24:00 Thursday night, or earlier if all 16 places are filled.</p>
+              <p>24:00 Thursday night, or earlier if all 8 places are filled.</p>
             </article>
             <article>
               <span className="day">FRI</span>
@@ -158,18 +151,7 @@ export default async function Home() {
                 21<span>NOV</span>
               </strong>
               <h3>Tournament day</h3>
-              <p>Main tournament day at Kavango River Lodge.</p>
-            </article>
-            <article>
-              <span className="day">SUN</span>
-              <strong>
-                22<span>NOV</span>
-              </strong>
-              <h3>Additional day, if required</h3>
-              <p>
-                Reserved if required, depending on entries. Please keep it
-                available.
-              </p>
+              <p>Tournament at Kavango River Lodge.</p>
             </article>
           </div>
           <div className="results-note">

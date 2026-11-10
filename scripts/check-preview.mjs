@@ -12,7 +12,8 @@ for (const wording of [
   "19 November 2026",
   "24:00 Thursday night",
   "21 November",
-  "22 November",
+  "Saturday only",
+  "I can attend Saturday, 21 November 2026.",
   "Friday morning",
   "N$20",
   "Available spots",
@@ -25,10 +26,11 @@ for (const wording of [
   assert.ok(html.includes(wording), `Missing page content: ${wording}`);
 }
 assert.match(html, /<fieldset disabled=""/);
+assert.doesNotMatch(html, /Sunday|22 November|both days|additional day|16 places|Maximum 16/i);
 assert.ok(html.includes("Online registration is not yet open"));
 const status = await fetch(`${base}/api/registration`);
 assert.deepEqual(await status.json(), {
-  status: "not-open", registered: null, available: null, capacity: 16,
+  status: "not-open", registered: null, available: null, capacity: 8,
 });
 const submission = await fetch(`${base}/api/registration`, {
   method: "POST",
